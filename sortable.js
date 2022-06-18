@@ -58,10 +58,10 @@ function createTable(list) {
         row.insertCell(10).innerHTML = list[i].appearance.gender;
         row.insertCell(11).innerHTML = list[i].appearance.height[1];
         row.insertCell(12).innerHTML = list[i].appearance.weight[1];
-        row.insertCell(13).innerHTML = list[i].biography.placeofBirth;
+        row.insertCell(13).innerHTML = list[i].biography.placeOfBirth;
         row.insertCell(14).innerHTML = list[i].biography.alignment;
     }
-    
+
     var headers = ["Icon", "Name", "Full Name", "Intelligence", "Strength", "Speed", "Durability", "Power", "Combat", "Race", "Gender", "Height", "Weight", "Place of Birth", "Alignment"];
 
     var header = table.createTHead();
