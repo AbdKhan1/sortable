@@ -8,12 +8,11 @@ async function getHeroes() {
   }
   console.log(res);
 }
+var table = document.createElement("table");  //makes a table element for the page
 
 async function renderHeroes() {
   let heroes = await getHeroes();
-
-  var headers = ["Icon", "Name", "Full Name", "Intelligence", "Strength", "Speed", "Durability", "Power", "Combat", "Race", "Gender", "Height", "Weight", "Place of Birth", "Alignment"];
-  var table = document.createElement("table");  //makes a table element for the page
+  var headers = ["Icon", "Name", "Full Name", "Intelligence", "Strength", "Speed", "Durability", "Power", "Combat", "Race", "Gender", "Height", "Weight", "Place of Birth", "Alignment"];  
 
   for (var i = 0; i < heroes.length; i++) {
     var row = table.insertRow(i);
@@ -43,52 +42,35 @@ async function renderHeroes() {
   document.body.append(table);
 }
 
-const items = document.querySelector("table");
-const searchUser = document.querySelector('#search');
-let data = []
+// const items = document.querySelector("table");
+// const searchUser = document.querySelector('#search');
+// let names = []
 
-const fetchName = () => {
-  fetch('https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json')
-    .then(res => {
-      res.json()
-        .then(heroes => {
-            data = heroes
-          showTable(data)
-        })
-        .catch(err => console.log(err));
-    })
-    .catch(err => console.log(err));
-};
+// const fetchName = () => {
+//   fetch('https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json')
+//     .then(res => {
+//       res.json()
+//         .then(heroes => {
+//           for (let i = 0; i < heroes.length; i++) {
+//             names[i] = heroes[i].name;
+//           }
+//           showNames(names)
+//         })
+//         .catch(err => console.log(err));
+//     })
+//     .catch(err => console.log(err));
+// };
 
-const showTable = (arr) => {
-  let output = "";
-  arr.forEach((name) => {
-  output += `
-<tr>
-  <td class="py-2 pl-5 border-b border-gray-200 bg-white">
-  <div class="flex table-center">
-    <div class="flex-shrink-0 w-10 h-10">
-    </div>
-    <div class="ml-3">
-      <h1 class="capitalize font-semibold text-base text-gray-900 whitespace-no-wrap">
-      ${name}
-      </h1>
-    </div>
-  </div>
-  </td>
-  <td class="py-2 text-center border-b border-gray-200 bg-white text-sm">
-    <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-700 rounded" 
-      >${name}
-    </a>
-  </td>
-</tr>
-`});
-  items.innerHTML = output;
-}
-document.addEventListener("DOMContentLoaded", fetchName);
+// const showNames = (arr) => {
+//   let output = "";
+//   arr.forEach((name) => {
+//   output += `${name}`});
+//   items.innerHTML = output;
+// }
+// document.addEventListener("DOMContentLoaded", fetchName);
 
-searchUser.addEventListener('input', e => {
-  const element = e.target.value.toLowerCase()
-  const nameSearch = heroes.name.filter(searchNames => searchNames.toLowerCase().includes(element))
-  showTable(nameSearch)
-})
+// searchUser.addEventListener('input', e => {
+//   const element = e.target.value.toLowerCase()
+//   const nameSearch = names.filter(searchNames => searchNames.toLowerCase().includes(element))
+//   showNames(nameSearch)
+// })
