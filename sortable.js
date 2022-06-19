@@ -100,7 +100,7 @@ async function renderHeroes() {
     createTable(heroes, value)
 
     var tableOne = document.querySelector('table')
-    var headers = ["Icon", "name", "fullName", "intelligence", "strength", "speed", "durability", "power", "combat", "race", "gender", "height", "weight", "placeOfBirth", "alignment"];
+    var headers = ["xs", "name", "fullName", "intelligence", "strength", "speed", "durability", "power", "combat", "race", "gender", "height", "weight", "placeOfBirth", "alignment"];
 
     var header = tableOne.createTHead();
     var headerRow = header.insertRow(0);
@@ -444,7 +444,41 @@ async function renderHeroes() {
             if(oldTable != null) oldTable.remove()
             
             createSortedTable(sHeroes,value)
-        }
+        }else if (order == 'desc' && column === 'xs'){
+          x.target.setAttribute('data-order', 'asc')
+          sHeroes = sortHeroes.sort((a,b) =>{
+            //column = "xs"         
+             if (imageChecker(a.images[column])) {
+                return 1;
+              }else if (imageChecker(b.images[column])){
+                return -1
+              }else{
+
+                return a.id > b.id ? -1 : 1
+              }
+          });
+         var oldTable = document.querySelector('tbody')
+         if(oldTable != null) oldTable.remove()
+         
+         createSortedTable(sHeroes,value)
+      }else if (order == 'asc' && column === 'xs'){
+          x.target.setAttribute('data-order', 'desc')
+          sHeroes = sortHeroes.sort((a,b) =>{
+           // column = "xs"        
+          if (imageChecker(a.images[column])) {
+                return 1;
+              }else if (imageChecker(b.images[column])){
+                return -1
+              }else{
+
+                return a.id > b.id ? 1 : -1
+              }
+          });
+          var oldTable = document.querySelector('tbody')
+          if(oldTable != null) oldTable.remove()
+          
+          createSortedTable(sHeroes,value)
+      }
         
     }
 }
@@ -479,6 +513,7 @@ function createTable(list, value) {
         row.insertCell(12).innerHTML = list[i].appearance.weight[1];
         row.insertCell(13).innerHTML = list[i].biography.placeOfBirth;
         row.insertCell(14).innerHTML = list[i].biography.alignment;
+       
     }
 
     
@@ -573,19 +608,18 @@ function sortedDesc (arr, a, b){
 function heightConverter(a){
     
     if (a.includes("cm")){
-        console.log(parseInt(a));
+        
        return parseInt(a)
     }else if (a.includes("meters")){
-        console.log((parseInt(a))*100);
+       
     return (parseInt(a))*100
    }
 }
   
-heightConverter("123 meters")
 
 function weightConverter(a){
     if (a.includes("kg")){
-console.log(a);
+
         return parseInt(a)
     }else if (a.includes("tons")){
         if (a.includes(",")){
@@ -593,11 +627,16 @@ console.log(a);
         }else{
 
         
-        console.log((parseInt(a)*1000));
+        
         return (parseInt(a)*1000)
     }
 }
 }
 
-weightConverter("9,000 tons")
-  
+
+function imageChecker(x){
+  if (x.includes("no-portait")){
+    return true
+  }
+  return false
+}
