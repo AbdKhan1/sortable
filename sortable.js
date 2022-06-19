@@ -11,39 +11,81 @@ async function getHeroes() {
 
 async function renderHeroes() {
     let heroes = await getHeroes();
-    console.log(typeof heroes)
 
     var searchBar = document.createElement("input");
     searchBar.setAttribute('type', 'text')
     document.body.appendChild(searchBar);
 
+    var size = document.getElementById("size-options");
+    var value = size.options[size.selectedIndex].text;
+    let pageSize = value;
+    let curPage = 1;
+    size.addEventListener('change', event => {
+        value = event.target.value
+        var oldTable = document.querySelector('tbody')
+        if (oldTable != null) oldTable.remove()
+        var oldHeader = document.querySelector('thead')
+        oldHeader.remove()
+        createTable(heroes,value)
+         pageSize = value;
+         curPage = 1
+    });
+    
+    
+    
+    document.querySelector('#nextButton').addEventListener('click', nextPage, false);
+    document.querySelector('#prevButton').addEventListener('click', previousPage, false);
+    
+    function previousPage() {
+        if (curPage !== 1) {
+        if(curPage >= 1) curPage--;
+        console.log(curPage, pageSize)
+        let newArr = heroes.slice((curPage * pageSize)-pageSize,(curPage *pageSize))
+        var oldTable = document.querySelector('tbody')
+        if (oldTable !== null) oldTable.remove()
+        var oldHeader = document.querySelector('thead')
+        oldHeader.remove()
+        createTable(newArr,value);
+        }
+    }
+    function nextPage() {
+        if(curPage <= heroes.length / pageSize) {
+        if((curPage * pageSize) < heroes.length) curPage++;
+        if(curPage > heroes.length / pageSize) value = heroes.length % pageSize
+        let newArr = heroes.slice((curPage * pageSize)-pageSize,(curPage*pageSize))
+       console.log(curPage, pageSize)
+        var oldTable = document.querySelector('tbody')
+        if (oldTable !== null) oldTable.remove()
+        var oldHeader = document.querySelector('thead')
+        oldHeader.remove()
+        createTable(newArr,value);
+    }
+}
+
     searchBar.addEventListener('keyup', event => {
         var characters = event.target.value.toLowerCase()
-
         var fHeroes = heroes.filter(hero => hero.name.toLowerCase().includes(characters))
-        console.log(fHeroes)
 
-        if (fHeroes.length !== 0) {
+    
             var oldTable = document.querySelector('tbody')
-            oldTable.remove()
+            if(oldTable != null) oldTable.remove()
             var oldHeader = document.querySelector('thead')
             oldHeader.remove()
-            createTable(fHeroes)
-        }
+            value = fHeroes.length
+            createTable(fHeroes, value)
+        
     })
-
-    createTable(heroes)
+    createTable(heroes, value)
 }
 
 renderHeroes();
 
 
-function createTable(list) {
+function createTable(list, value) {
 
     var table = document.createElement("table");  //makes a table element for the page
 
-
-    for (var i = 0; i < list.length; i++) {
+    for (var i = 0; i < value; i++) {
         var row = table.insertRow(i);
         row.insertCell(0).innerHTML = '<img src =' + list[i].images.xs + '>';
         row.insertCell(1).innerHTML = list[i].name;
