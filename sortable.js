@@ -8,10 +8,10 @@ async function getHeroes() {
     }
     console.log(res);
 }
-
+let sortHeroes 
 async function renderHeroes() {
     let heroes = await getHeroes();
-
+    sortHeroes = heroes
     var searchBar = document.createElement("input");
     searchBar.setAttribute('type', 'text')
     document.body.appendChild(searchBar);
@@ -69,7 +69,7 @@ async function renderHeroes() {
         var characters = event.target.value.toLowerCase()
        
         var fHeroes = heroes.filter(hero => hero.name.toLowerCase().includes(characters))
-
+        
     
             var oldTable = document.querySelector('tbody')
             if(oldTable != null) oldTable.remove()
@@ -84,9 +84,10 @@ async function renderHeroes() {
             value = 20
             document.querySelector('#size-options').value = '20'
         }
-            createTable(fHeroes, value)
-    //         document.querySelectorAll('#heroesTable thead tr th')
-    // .forEach(e => e.addEventListener("click", sortTable));
+        createTable(fHeroes, value)
+        sortHeroes = fHeroes
+            document.querySelectorAll('#heroesTable thead tr th')
+    .forEach(e => e.addEventListener("click", sortTable));
 
             
         
@@ -100,7 +101,7 @@ async function renderHeroes() {
     var header = tableOne.createTHead();
     var headerRow = header.insertRow(0);
     for (var i = 0; i < headers.length; i++) {
-        headerRow.insertCell(i).outerHTML =`<th data-column=\"${headers[i]}\" data-order=asc>${headers[i]}</th>`;
+        headerRow.insertCell(i).outerHTML =`<th data-column=\"${headers[i]}\" data-order=desc>${headers[i]}</th>`;
     }
     
    
@@ -112,25 +113,25 @@ async function renderHeroes() {
 
         var column =x.target.getAttribute('data-column');
         var order = x.target.getAttribute('data-order')
-        console.log(column);
+        console.log(column, order);
 
          if (order == 'desc' && column === 'name'){
             x.target.setAttribute('data-order', 'asc')
-           sHeroes = heroes.sort((a,b) => a[column] > b[column] ? 1 : -1)
+           sHeroes = sortHeroes.sort((a,b) => a[column] > b[column] ? 1 : -1)
            var oldTable = document.querySelector('tbody')
            if(oldTable != null) oldTable.remove()
            
            createSortedTable(sHeroes,value)
         }else if (order == 'asc' && column === 'name'){
             x.target.setAttribute('data-order', 'desc')
-            sHeroes = heroes.sort((a,b) => a[column] < b[column] ? 1 : -1)
+            sHeroes = sortHeroes.sort((a,b) => a[column] < b[column] ? 1 : -1)
             var oldTable = document.querySelector('tbody')
             if(oldTable != null) oldTable.remove()
             
             createSortedTable(sHeroes,value)
         }else if (order == 'desc' && column === 'fullName'){
             x.target.setAttribute('data-order', 'asc')
-            sHeroes = heroes.sort((a,b) =>{
+            sHeroes = sortHeroes.sort((a,b) =>{
                 if (a.biography[column] === null || a.biography[column] === "-" || a.biography[column] === "") {
                 
                   return 1;
@@ -147,7 +148,7 @@ async function renderHeroes() {
            createSortedTable(sHeroes,value)
         }else if (order == 'asc' && column === 'fullName'){
             x.target.setAttribute('data-order', 'desc')
-            sHeroes = heroes.sort((a,b) =>{
+            sHeroes = sortHeroes.sort((a,b) =>{
                 if (a.biography[column] === null || a.biography[column] === "-" || a.biography[column] === "") {
                   return 1;
                 }else if (b.biography[column] === null || b.biography[column] === "-"|| b.biography[column] === "") {
@@ -163,91 +164,91 @@ async function renderHeroes() {
             createSortedTable(sHeroes,value)
         }else if (order == 'desc' && column === 'intelligence'){
             x.target.setAttribute('data-order', 'asc')
-           sHeroes = heroes.sort((a,b) => a.powerstats[column] > b.powerstats[column] ? 1 : -1)
+           sHeroes = sortHeroes.sort((a,b) => a.powerstats[column] > b.powerstats[column] ? 1 : -1)
            var oldTable = document.querySelector('tbody')
            if(oldTable != null) oldTable.remove()
            
            createSortedTable(sHeroes,value)
         }else if (order == 'asc' && column === 'intelligence'){
             x.target.setAttribute('data-order', 'desc')
-            sHeroes = heroes.sort((a,b) => a.powerstats[column] < b.powerstats[column] ? 1 : -1)
+            sHeroes = sortHeroes.sort((a,b) => a.powerstats[column] < b.powerstats[column] ? 1 : -1)
             var oldTable = document.querySelector('tbody')
             if(oldTable != null) oldTable.remove()
             
             createSortedTable(sHeroes,value)
         }else if (order == 'desc' && column === 'strength'){
             x.target.setAttribute('data-order', 'asc')
-           sHeroes = heroes.sort((a,b) => a.powerstats[column] > b.powerstats[column] ? 1 : -1)
+           sHeroes = sortHeroes.sort((a,b) => a.powerstats[column] > b.powerstats[column] ? 1 : -1)
            var oldTable = document.querySelector('tbody')
            if(oldTable != null) oldTable.remove()
            
            createSortedTable(sHeroes,value)
         }else if (order == 'asc' && column === 'strength'){
             x.target.setAttribute('data-order', 'desc')
-            sHeroes = heroes.sort((a,b) => a.powerstats[column] < b.powerstats[column] ? 1 : -1)
+            sHeroes = sortHeroes.sort((a,b) => a.powerstats[column] < b.powerstats[column] ? 1 : -1)
             var oldTable = document.querySelector('tbody')
             if(oldTable != null) oldTable.remove()
             
             createSortedTable(sHeroes,value)
         }else if (order == 'desc' && column === 'speed'){
             x.target.setAttribute('data-order', 'asc')
-           sHeroes = heroes.sort((a,b) => a.powerstats[column] > b.powerstats[column] ? 1 : -1)
+           sHeroes = sortHeroes.sort((a,b) => a.powerstats[column] > b.powerstats[column] ? 1 : -1)
            var oldTable = document.querySelector('tbody')
            if(oldTable != null) oldTable.remove()
            
            createSortedTable(sHeroes,value)
         }else if (order == 'asc' && column === 'speed'){
             x.target.setAttribute('data-order', 'desc')
-            sHeroes = heroes.sort((a,b) => a.powerstats[column] < b.powerstats[column] ? 1 : -1)
+            sHeroes = sortHeroes.sort((a,b) => a.powerstats[column] < b.powerstats[column] ? 1 : -1)
             var oldTable = document.querySelector('tbody')
             if(oldTable != null) oldTable.remove()
             
             createSortedTable(sHeroes,value)
         }else if (order == 'desc' && column === 'durability'){
             x.target.setAttribute('data-order', 'asc')
-           sHeroes = heroes.sort((a,b) => a.powerstats[column] > b.powerstats[column] ? 1 : -1)
+           sHeroes = sortHeroes.sort((a,b) => a.powerstats[column] > b.powerstats[column] ? 1 : -1)
            var oldTable = document.querySelector('tbody')
            if(oldTable != null) oldTable.remove()
            
            createSortedTable(sHeroes,value)
         }else if (order == 'asc' && column === 'durability'){
             x.target.setAttribute('data-order', 'desc')
-            sHeroes = heroes.sort((a,b) => a.powerstats[column] < b.powerstats[column] ? 1 : -1)
+            sHeroes = sortHeroes.sort((a,b) => a.powerstats[column] < b.powerstats[column] ? 1 : -1)
             var oldTable = document.querySelector('tbody')
             if(oldTable != null) oldTable.remove()
             
             createSortedTable(sHeroes,value)
         }else if (order == 'desc' && column === 'power'){
             x.target.setAttribute('data-order', 'asc')
-           sHeroes = heroes.sort((a,b) => a.powerstats[column] > b.powerstats[column] ? 1 : -1)
+           sHeroes = sortHeroes.sort((a,b) => a.powerstats[column] > b.powerstats[column] ? 1 : -1)
            var oldTable = document.querySelector('tbody')
            if(oldTable != null) oldTable.remove()
            
            createSortedTable(sHeroes,value)
         }else if (order == 'asc' && column === 'power'){
             x.target.setAttribute('data-order', 'desc')
-            sHeroes = heroes.sort((a,b) => a.powerstats[column] < b.powerstats[column] ? 1 : -1)
+            sHeroes = sortHeroes.sort((a,b) => a.powerstats[column] < b.powerstats[column] ? 1 : -1)
             var oldTable = document.querySelector('tbody')
             if(oldTable != null) oldTable.remove()
             
             createSortedTable(sHeroes,value)
         }else if (order == 'desc' && column === 'combat'){
             x.target.setAttribute('data-order', 'asc')
-           sHeroes = heroes.sort((a,b) => a.powerstats[column] > b.powerstats[column] ? 1 : -1)
+           sHeroes = sortHeroes.sort((a,b) => a.powerstats[column] > b.powerstats[column] ? 1 : -1)
            var oldTable = document.querySelector('tbody')
            if(oldTable != null) oldTable.remove()
            
            createSortedTable(sHeroes,value)
         }else if (order == 'asc' && column === 'combat'){
             x.target.setAttribute('data-order', 'desc')
-            sHeroes = heroes.sort((a,b) => a.powerstats[column] < b.powerstats[column] ? 1 : -1)
+            sHeroes = sortHeroes.sort((a,b) => a.powerstats[column] < b.powerstats[column] ? 1 : -1)
             var oldTable = document.querySelector('tbody')
             if(oldTable != null) oldTable.remove()
             
             createSortedTable(sHeroes,value)
         }else if (order == 'desc' && column === 'race'){
             x.target.setAttribute('data-order', 'asc')
-           sHeroes = heroes.sort((a,b) => {
+           sHeroes = sortHeroes.sort((a,b) => {
              if (a.appearance[column] === null || a.appearance[column] === "-" || a.appearance[column] === "") {
             return 1;
           }else if (b.appearance[column] === null || b.appearance[column] === "-" || a.appearance[column] === "") {
@@ -263,7 +264,7 @@ async function renderHeroes() {
            createSortedTable(sHeroes,value)
         }else if (order == 'asc' && column === 'race'){
             x.target.setAttribute('data-order', 'desc')
-            sHeroes = heroes.sort((a,b) =>{
+            sHeroes = sortHeroes.sort((a,b) =>{
                 if (a.appearance[column] === null || a.appearance[column] === "-" || a.appearance[column] === "") {
                   return 1;
                 }else if (b.appearance[column] === null || b.appearance[column] === "-" || b.appearance[column] === "") {
@@ -279,7 +280,7 @@ async function renderHeroes() {
             createSortedTable(sHeroes,value)
         }else if (order == 'desc' && column === 'gender'){
             x.target.setAttribute('data-order', 'asc')
-            sHeroes = heroes.sort((a,b) => {
+            sHeroes = sortHeroes.sort((a,b) => {
                 if (a.appearance[column] === null || a.appearance[column] === "-" || a.appearance[column] === "") {
                return 1;
              }else if (b.appearance[column] === null || b.appearance[column] === "-" || a.appearance[column] === "") {
@@ -295,7 +296,7 @@ async function renderHeroes() {
            createSortedTable(sHeroes,value)
         }else if (order == 'asc' && column === 'gender'){
             x.target.setAttribute('data-order', 'desc')
-            sHeroes = heroes.sort((a,b) =>{
+            sHeroes = sortHeroes.sort((a,b) =>{
                 if (a.appearance[column] === null || a.appearance[column] === "-" || a.appearance[column] === "") {
                   return 1;
                 }else if (b.appearance[column] === null || b.appearance[column] === "-" || b.appearance[column] === "") {
@@ -311,7 +312,7 @@ async function renderHeroes() {
             createSortedTable(sHeroes,value)
         }else if (order == 'desc' && column === 'height'){
             x.target.setAttribute('data-order', 'asc')
-            sHeroes = heroes.sort((a,b) => {
+            sHeroes = sortHeroes.sort((a,b) => {
                 if (a.appearance[column] === null || a.appearance[column] === "-" || a.appearance[column] === "" || a.appearance[column][1] === undefined) {
                return 1;
              }else if (b.appearance[column] === null || b.appearance[column] === "-" || a.appearance[column] === "" || b.appearance[column][1] === undefined) {
@@ -327,7 +328,7 @@ async function renderHeroes() {
            createSortedTable(sHeroes,value)
         }else if (order == 'asc' && column === 'height'){
             x.target.setAttribute('data-order', 'desc')
-            sHeroes = heroes.sort((a,b) => {
+            sHeroes = sortHeroes.sort((a,b) => {
                 if (a.appearance[column] === null || a.appearance[column] === "-" || a.appearance[column] === "" || a.appearance[column][1] === undefined) {
                return 1;
              }else if (b.appearance[column] === null || b.appearance[column] === "-" || a.appearance[column] === "" || b.appearance[column][1] === undefined) {
@@ -343,7 +344,7 @@ async function renderHeroes() {
             createSortedTable(sHeroes,value)
         }else if (order == 'desc' && column === 'weight'){
             x.target.setAttribute('data-order', 'asc')
-            sHeroes = heroes.sort((a,b) => {
+            sHeroes = sortHeroes.sort((a,b) => {
                 if (a.appearance[column] === null || a.appearance[column] === "-" || a.appearance[column] === "" || a.appearance[column][1] === undefined) {
                return 1;
              }else if (b.appearance[column] === null || b.appearance[column] === "-" || a.appearance[column] === "" || b.appearance[column][1] === undefined) {
@@ -359,7 +360,7 @@ async function renderHeroes() {
            createSortedTable(sHeroes,value)
         }else if (order == 'asc' && column === 'weight'){
             x.target.setAttribute('data-order', 'desc')
-            sHeroes = heroes.sort((a,b) => {
+            sHeroes = sortHeroes.sort((a,b) => {
                 if (a.appearance[column] === null || a.appearance[column] === "-" || a.appearance[column] === "" || a.appearance[column][1] === undefined) {
                return 1;
              }else if (b.appearance[column] === null || b.appearance[column] === "-" || a.appearance[column] === "" || b.appearance[column][1] === undefined) {
@@ -375,7 +376,7 @@ async function renderHeroes() {
             createSortedTable(sHeroes,value)
         }else if (order == 'desc' && column === 'placeOfBirth'){
             x.target.setAttribute('data-order', 'asc')
-           sHeroes = heroes.sort((a,b) =>{
+           sHeroes = sortHeroes.sort((a,b) =>{
             if (a.biography[column] === null || a.biography[column] === "-" || a.biography[column] === "") {
               return 1;
             }else if (b.biography[column] === null || b.biography[column] === "-" || b.biography[column] === "") {
@@ -392,7 +393,7 @@ async function renderHeroes() {
            createSortedTable(sHeroes,value)
         }else if (order == 'asc' && column === 'placeOfBirth'){
             x.target.setAttribute('data-order', 'desc')
-            sHeroes = heroes.sort((a,b) =>{
+            sHeroes = sortHeroes.sort((a,b) =>{
                 if (a.biography[column] === null || a.biography[column] === "-" || a.biography[column] === "") {
                   return 1;
                 }else if (b.biography[column] === null || b.biography[column] === "-" || b.biography[column] === "") {
@@ -409,7 +410,7 @@ async function renderHeroes() {
             createSortedTable(sHeroes,value)
         }else if (order == 'desc' && column === 'alignment'){
             x.target.setAttribute('data-order', 'asc')
-            sHeroes = heroes.sort((a,b) =>{
+            sHeroes = sortHeroes.sort((a,b) =>{
                 if (a.biography[column] === null || a.biography[column] === "-" || a.biography[column] === "") {
                   return 1;
                 }else if (b.biography[column] === null || b.biography[column] === "-" || b.biography[column] === "") {
@@ -425,7 +426,7 @@ async function renderHeroes() {
            createSortedTable(sHeroes,value)
         }else if (order == 'asc' && column === 'alignment'){
             x.target.setAttribute('data-order', 'desc')
-            sHeroes = heroes.sort((a,b) =>{
+            sHeroes = sortHeroes.sort((a,b) =>{
                 if (a.biography[column] === null || a.biography[column] === "-" || a.biography[column] === "") {
                   return 1;
                 }else if (b.biography[column] === null || b.biography[column] === "-" || b.biography[column] === "") {
