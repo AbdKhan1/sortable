@@ -1,4 +1,11 @@
 table{
     background-color:lemonchiffon;
    max-height:20%;
+   table-layout: fixed;
+   width: 100%;
 }
+
+/* #heroesTable{
+    width: 100%;
+} */
+

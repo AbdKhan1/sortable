@@ -24,8 +24,8 @@ async function renderHeroes() {
         value = event.target.value
         var oldTable = document.querySelector('tbody')
         if (oldTable != null) oldTable.remove()
-        var oldHeader = document.querySelector('thead')
-        oldHeader.remove()
+        // var oldHeader = document.querySelector('thead')
+        // oldHeader.remove()
         createTable(heroes,value)
          pageSize = value;
          curPage = 1
@@ -43,8 +43,8 @@ async function renderHeroes() {
         let newArr = heroes.slice((curPage * pageSize)-pageSize,(curPage *pageSize))
         var oldTable = document.querySelector('tbody')
         if (oldTable !== null) oldTable.remove()
-        var oldHeader = document.querySelector('thead')
-            oldHeader.remove()
+        // var oldHeader = document.querySelector('thead')
+        //     oldHeader.remove()
             value = pageSize
         createTable(newArr,value);
         }
@@ -57,8 +57,8 @@ async function renderHeroes() {
        console.log(curPage, pageSize)
         var oldTable = document.querySelector('tbody')
         if (oldTable !== null) oldTable.remove()
-        var oldHeader = document.querySelector('thead')
-            oldHeader.remove()
+        // var oldHeader = document.querySelector('thead')
+        //     oldHeader.remove()
             value = pageSize
              if (curPage > heroes.length / pageSize) value = heroes.length % pageSize
         createTable(newArr,value);
@@ -73,8 +73,10 @@ async function renderHeroes() {
     
             var oldTable = document.querySelector('tbody')
             if(oldTable != null) oldTable.remove()
-            var oldHeader = document.querySelector('thead')
-            oldHeader.remove()
+        //     var oldHeader = document.querySelector('thead')
+        // oldHeader.remove()
+        // let oldTab = document.querySelector('table')
+        // if (oldTab !== null) oldTab.remove()
         value = fHeroes.length
         
         if (characters === '') {
@@ -83,16 +85,26 @@ async function renderHeroes() {
             document.querySelector('#size-options').value = '20'
         }
             createTable(fHeroes, value)
-            document.querySelectorAll('#heroesTable thead tr th')
-    .forEach(e => e.addEventListener("click", sortTable));
+    //         document.querySelectorAll('#heroesTable thead tr th')
+    // .forEach(e => e.addEventListener("click", sortTable));
 
             
         
     })
     value = pageSize
     createTable(heroes, value)
+
+    var tableOne = document.querySelector('table')
+    var headers = ["Icon", "name", "fullName", "intelligence", "strength", "speed", "durability", "power", "combat", "race", "gender", "height", "weight", "placeOfBirth", "alignment"];
+
+    var header = tableOne.createTHead();
+    var headerRow = header.insertRow(0);
+    for (var i = 0; i < headers.length; i++) {
+        headerRow.insertCell(i).outerHTML =`<th data-column=\"${headers[i]}\" data-order=asc>${headers[i]}</th>`;
+    }
+    
    
-    document.querySelectorAll('#heroesTable thead tr th')
+    document.querySelectorAll('th')
     .forEach(e => e.addEventListener("click", sortTable));
 
     function sortTable(x){
@@ -465,14 +477,15 @@ function createTable(list, value) {
     }
 
     
-    var headers = ["Icon", "name", "fullName", "intelligence", "strength", "speed", "durability", "power", "combat", "race", "gender", "height", "weight", "placeOfBirth", "alignment"];
+    // var headers = ["Icon", "name", "fullName", "intelligence", "strength", "speed", "durability", "power", "combat", "race", "gender", "height", "weight", "placeOfBirth", "alignment"];
 
-    var header = table.createTHead();
-    var headerRow = header.insertRow(0);
-    for (var i = 0; i < headers.length; i++) {
-        headerRow.insertCell(i).outerHTML =`<th data-column=\"${headers[i]}\" data-order=desc>${headers[i]}</th>`;
-    }
+    // var header = table.createTHead();
+    // var headerRow = header.insertRow(0);
+    // for (var i = 0; i < headers.length; i++) {
+    //     headerRow.insertCell(i).outerHTML =`<th data-column=\"${headers[i]}\" data-order=desc>${headers[i]}</th>`;
+    // }
     document.body.append(table)
+    //  document.querySelector('table').appendChild(table)
 }
 let heroes
 let sHeroes
@@ -510,6 +523,7 @@ function createSortedTable(list, value) {
     //     headerRow.insertCell(i).outerHTML =`<th data-column=\"${headers[i]}\" data-order=asc>${headers[i]}</th>`;
     // }
     document.querySelector('table').appendChild(table)
+    
 }
 
 
