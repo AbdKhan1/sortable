@@ -1,3 +1,7 @@
+/*
+To start server :=> npx http-server
+ */
+
 async function getHeroes() {
     let url = 'https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json';
     try {
