@@ -100,7 +100,7 @@ async function renderHeroes() {
     createTable(heroes, value)
 
     var tableOne = document.querySelector('table')
-    var headers = ["xs", "name", "fullName", "intelligence", "strength", "speed", "durability", "power", "combat", "race", "gender", "height", "weight", "placeOfBirth", "alignment"];
+    var headers = ["icon", "name", "fullName", "intelligence", "strength", "speed", "durability", "power", "combat", "race", "gender", "height", "weight", "placeOfBirth", "alignment"];
 
     var header = tableOne.createTHead();
     var headerRow = header.insertRow(0);
@@ -444,34 +444,35 @@ async function renderHeroes() {
             if(oldTable != null) oldTable.remove()
             
             createSortedTable(sHeroes,value)
-        }else if (order == 'desc' && column === 'xs'){
+        }else if (order == 'desc' && column === 'icon'){
           x.target.setAttribute('data-order', 'asc')
           sHeroes = sortHeroes.sort((a,b) =>{
-            //column = "xs"         
+            column = "xs"         
              if (imageChecker(a.images[column])) {
+              
                 return 1;
               }else if (imageChecker(b.images[column])){
                 return -1
               }else{
 
-                return a.id > b.id ? -1 : 1
+                return parseInt(a.id) > parseInt(b.id) ? -1 : 1
               }
           });
          var oldTable = document.querySelector('tbody')
          if(oldTable != null) oldTable.remove()
          
          createSortedTable(sHeroes,value)
-      }else if (order == 'asc' && column === 'xs'){
+      }else if (order == 'asc' && column === 'icon'){
           x.target.setAttribute('data-order', 'desc')
           sHeroes = sortHeroes.sort((a,b) =>{
-           // column = "xs"        
+          column = "xs"        
           if (imageChecker(a.images[column])) {
                 return 1;
               }else if (imageChecker(b.images[column])){
                 return -1
               }else{
 
-                return a.id > b.id ? 1 : -1
+                return parseInt(a.id) > parseInt(b.id) ? 1 : -1
               }
           });
           var oldTable = document.querySelector('tbody')
@@ -498,7 +499,7 @@ function createTable(list, value) {
 
     for (var i = 0; i < value; i++) {
         var row = table.insertRow(i);
-        row.insertCell(0).innerHTML = '<img src =' + list[i].images.xs + '>';
+        row.insertCell(0).innerHTML = `<img src = ${list[i].images.xs} >`;
         row.insertCell(1).innerHTML = list[i].name;
         row.insertCell(2).innerHTML = list[i].biography.fullName;
         row.insertCell(3).innerHTML = list[i].powerstats.intelligence;
@@ -635,8 +636,10 @@ function weightConverter(a){
 
 
 function imageChecker(x){
-  if (x.includes("no-portait")){
+  if (x.includes("no-portrait")){
     return true
   }
   return false
 }
+
+console.log(imageChecker("https://cdn.rawgit.com/akabab/superhero-api/0.2.0/api/images/xs/no-portrait.jpg"))
