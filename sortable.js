@@ -44,26 +44,30 @@ async function renderHeroes() {
         var oldTable = document.querySelector('tbody')
         if (oldTable !== null) oldTable.remove()
         var oldHeader = document.querySelector('thead')
-        oldHeader.remove()
+            oldHeader.remove()
+            value = pageSize
         createTable(newArr,value);
         }
     }
     function nextPage() {
         if(curPage <= heroes.length / pageSize) {
         if((curPage * pageSize) < heroes.length) curPage++;
-        if(curPage > heroes.length / pageSize) value = heroes.length % pageSize
+        
         let newArr = heroes.slice((curPage * pageSize)-pageSize,(curPage*pageSize))
        console.log(curPage, pageSize)
         var oldTable = document.querySelector('tbody')
         if (oldTable !== null) oldTable.remove()
         var oldHeader = document.querySelector('thead')
-        oldHeader.remove()
+            oldHeader.remove()
+            value = pageSize
+             if (curPage > heroes.length / pageSize) value = heroes.length % pageSize
         createTable(newArr,value);
     }
 }
 
     searchBar.addEventListener('keyup', event => {
         var characters = event.target.value.toLowerCase()
+       
         var fHeroes = heroes.filter(hero => hero.name.toLowerCase().includes(characters))
 
     
@@ -71,10 +75,17 @@ async function renderHeroes() {
             if(oldTable != null) oldTable.remove()
             var oldHeader = document.querySelector('thead')
             oldHeader.remove()
-            value = fHeroes.length
+        value = fHeroes.length
+        
+        if (characters === '') {
+            curPage = 1
+            value = 20
+            document.querySelector('#size-options').value = '20'
+        }
             createTable(fHeroes, value)
         
     })
+    value = pageSize
     createTable(heroes, value)
 }
 
