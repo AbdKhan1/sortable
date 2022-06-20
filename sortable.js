@@ -107,7 +107,7 @@ async function renderHeroes() {
     for (var i = 0; i < headers.length; i++) {
       if (i === 2){
         headerRow.insertCell(i).outerHTML =`<th data-column=\"${headers[2]}\" data-order=asc>${headers[2]}</th>`;
-      }else{
+      }
         headerRow.insertCell(i).outerHTML =`<th data-column=\"${headers[i]}\" data-order=desc>${headers[i]}</th>`;
     }
     
